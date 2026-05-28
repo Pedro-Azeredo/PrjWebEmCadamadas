@@ -30,15 +30,15 @@ public class ConfiguraçãoPerfilProfissionalSaude extends ConfiguraçãoPerfil 
     @Column (nullable = false, length = TAMANHO_MAX_ESPECIALIDADE)
     private String especialidade;
 
-    @OneToMany (mappedBy = "configuracaoPerfil", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany (mappedBy = "ConfiguraçãoPerfilProfissionalSaude", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List <Consulta> listaConsultas = new ArrayList <> ();
 
-    @OneToMany (mappedBy = "configuracaoPerfil", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany (mappedBy = "ConfiguraçãoPerfilProfissionalSaude", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List <Reserva> listaReservas = new ArrayList <> ();
 
-    @OneToMany (mappedBy = "configuracaoPerfil", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany (mappedBy = "ConfiguraçãoPerfilProfissionalSaude", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List <ItemDisponibilidade> listaItensDisponibilidade = new ArrayList <> ();
 
@@ -63,7 +63,6 @@ public class ConfiguraçãoPerfilProfissionalSaude extends ConfiguraçãoPerfil 
 
     public void setNumRegistro (String nr) throws ModelException {
         ConfiguraçãoPerfilProfissionalSaude.validarNumRegistro (nr);
-
         numRegistro = nr;
     }
 
@@ -73,7 +72,6 @@ public class ConfiguraçãoPerfilProfissionalSaude extends ConfiguraçãoPerfil 
 
     public void setTipoProfissional (TipoProfissional tp) throws ModelException {
         ConfiguraçãoPerfilProfissionalSaude.validarTipoProfissional (tp);
-
         tipoProfissional = tp;
     }
 
@@ -83,7 +81,6 @@ public class ConfiguraçãoPerfilProfissionalSaude extends ConfiguraçãoPerfil 
 
     public void setEspecialidade (String esp) throws ModelException {
         ConfiguraçãoPerfilProfissionalSaude.validarEspecialidade (esp);
-
         especialidade = esp;
     }
 
@@ -94,7 +91,6 @@ public class ConfiguraçãoPerfilProfissionalSaude extends ConfiguraçãoPerfil 
     public void setItensDisponibilidade (List <ItemDisponibilidade> novaLista) throws ModelException {
         if (novaLista == null)
             throw new ModelException ("A lista de itens de disponibilidade não pode ser nula!");
-
         listaItensDisponibilidade = novaLista;
     }
 
@@ -105,7 +101,6 @@ public class ConfiguraçãoPerfilProfissionalSaude extends ConfiguraçãoPerfil 
     public void setListaConsultas (List <Consulta> novaLista) throws ModelException {
         if (novaLista == null)
             throw new ModelException ("A lista de consultas não pode ser nula!");
-
         listaConsultas = novaLista;
     }
 
@@ -132,7 +127,6 @@ public class ConfiguraçãoPerfilProfissionalSaude extends ConfiguraçãoPerfil 
     public void setListaReservas (List <Reserva> novaLista) throws ModelException {
         if (novaLista == null)
             throw new ModelException ("A lista de reservas não pode ser nula!");
-
         listaReservas = novaLista;
     }
 
@@ -152,7 +146,7 @@ public class ConfiguraçãoPerfilProfissionalSaude extends ConfiguraçãoPerfil 
     public static void validarNumRegistro (String nr) throws ModelException {
         if (nr == null || nr.isBlank ())
             throw new ModelException ("O número de registro não pode ser nulo ou vazio!");
-
+        
         if (nr.length () < TAMANHO_MIN_NUM_REGISTRO || nr.length () > TAMANHO_MAX_NUM_REGISTRO)
             throw new ModelException ("O número de registro deve possuir entre " + TAMANHO_MIN_NUM_REGISTRO + " e "+ TAMANHO_MAX_NUM_REGISTRO + " caracteres!");
 
