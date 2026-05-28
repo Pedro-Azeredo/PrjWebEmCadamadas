@@ -35,7 +35,7 @@ public class ItemDisponibilidade {
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "configuracao_perfil_id", nullable = false)
     @JsonBackReference
-    private ConfiguraçãoPerfilProfissionalSaude configuracaoPerfilProfissionalSaude;
+    private ConfiguracaoPerfilProfissionalSaude configuracaoPerfilProfissionalSaude;
 
     public ItemDisponibilidade() {}
 
@@ -90,11 +90,11 @@ public class ItemDisponibilidade {
         tempoAtendimento = ta;
     }
 
-    public ConfiguraçãoPerfilProfissionalSaude getConfiguracaoPerfilProfissionalSaude() {
+    public ConfiguracaoPerfilProfissionalSaude getConfiguracaoPerfilProfissionalSaude() {
         return configuracaoPerfilProfissionalSaude;
     }
 
-    public void setConfiguracaoPerfilProfissionalSaude(ConfiguraçãoPerfilProfissionalSaude cp) throws ModelException {
+    public void setConfiguracaoPerfilProfissionalSaude(ConfiguracaoPerfilProfissionalSaude cp) throws ModelException {
         if(cp == null)
             throw new ModelException("A configuração de perfil não pode ser nula!");
         this.configuracaoPerfilProfissionalSaude = cp;

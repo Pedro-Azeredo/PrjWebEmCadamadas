@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
-public class ConfiguraçãoPerfilProfissionalSaude extends ConfiguraçãoPerfil {
+public class ConfiguracaoPerfilProfissionalSaude extends configuracaoPerfil {
     public static final int  TAMANHO_MIN_ESPECIALIDADE = 2, TAMANHO_MAX_ESPECIALIDADE = 80, TAMANHO_MIN_NUM_REGISTRO = 2, TAMANHO_MAX_NUM_REGISTRO = 30;
 
     @Id
@@ -30,20 +30,20 @@ public class ConfiguraçãoPerfilProfissionalSaude extends ConfiguraçãoPerfil 
     @Column (nullable = false, length = TAMANHO_MAX_ESPECIALIDADE)
     private String especialidade;
 
-    @OneToMany (mappedBy = "configuracaoPerfil", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany (mappedBy = "ConfiguracaoPerfilProfissionalSaude", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List <Consulta> listaConsultas = new ArrayList <> ();
 
-    @OneToMany (mappedBy = "configuracaoPerfil", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany (mappedBy = "ConfiguracaoPerfilProfissionalSaude", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List <Reserva> listaReservas = new ArrayList <> ();
 
-    @OneToMany (mappedBy = "configuracaoPerfil", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany (mappedBy = "ConfiguracaoPerfilProfissionalSaude", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List <ItemDisponibilidade> listaItensDisponibilidade = new ArrayList <> ();
 
-    public ConfiguraçãoPerfilProfissionalSaude () {}
-    public ConfiguraçãoPerfilProfissionalSaude (String nr, TipoProfissional tp, String esp, ItemDisponibilidade item) throws ModelException {
+    public ConfiguracaoPerfilProfissionalSaude() {}
+    public ConfiguracaoPerfilProfissionalSaude(String nr, TipoProfissional tp, String esp, ItemDisponibilidade item) throws ModelException {
         setNumRegistro (nr);
         setTipoProfissional (tp);
         setEspecialidade (esp);
@@ -62,7 +62,7 @@ public class ConfiguraçãoPerfilProfissionalSaude extends ConfiguraçãoPerfil 
     }
 
     public void setNumRegistro (String nr) throws ModelException {
-        ConfiguraçãoPerfilProfissionalSaude.validarNumRegistro (nr);
+        ConfiguracaoPerfilProfissionalSaude.validarNumRegistro (nr);
         numRegistro = nr;
     }
 
@@ -71,7 +71,7 @@ public class ConfiguraçãoPerfilProfissionalSaude extends ConfiguraçãoPerfil 
     }
 
     public void setTipoProfissional (TipoProfissional tp) throws ModelException {
-        ConfiguraçãoPerfilProfissionalSaude.validarTipoProfissional (tp);
+        ConfiguracaoPerfilProfissionalSaude.validarTipoProfissional (tp);
         tipoProfissional = tp;
     }
 
@@ -80,7 +80,7 @@ public class ConfiguraçãoPerfilProfissionalSaude extends ConfiguraçãoPerfil 
     }
 
     public void setEspecialidade (String esp) throws ModelException {
-        ConfiguraçãoPerfilProfissionalSaude.validarEspecialidade (esp);
+        ConfiguracaoPerfilProfissionalSaude.validarEspecialidade (esp);
         especialidade = esp;
     }
 
