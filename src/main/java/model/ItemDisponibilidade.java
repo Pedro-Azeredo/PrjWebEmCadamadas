@@ -1,8 +1,15 @@
-//
-// GRUPO 12
-// Componentes: Pedro Henrique de Azeredo Ramos e Matheus de Assis Gonçalves
-//
+/*
+   Grupo 12
+   Componentes: Matheus de Assis Gonçalves e Pedro Henrique de Azeredo Ramos
+*/
+
 package model;
+
+import java.time.DayOfWeek;
+import java.time.Duration;
+import java.time.LocalTime;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 
@@ -12,101 +19,118 @@ public class ItemDisponibilidade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false, length = 13)
-    private String diaSemana;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DayOfWeek diaSemana;
 
-    @Column(nullable=false)
-    private String horaInicio;
+    @Column(nullable = false)
+    private LocalTime horaInicio;
 
-    @Column(nullable=false)
-    private String horaFim;
+    @Column(nullable = false)
+    private LocalTime horaFim;
 
-    @Column(nullable=false)
-    private String tempoAtendimento;
+    @Column(nullable = false)
+    private Duration tempoAtendimento;
 
-    //botar jsonbackreference
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_configuraçao_perfil_profissional_saude", nullable = false)
+    @JoinColumn(name = "configuracao_perfil_id", nullable = false)
+    @JsonBackReference
     private ConfiguraçãoPerfilProfissionalSaude configuracaoPerfilProfissionalSaude;
 
-    public ItemDisponibilidade() {
-        super();
-    }
+    public ItemDisponibilidade() {}
 
-    public ItemDisponibilidade(String  diaSemana, String horaInicio, String horaFim, String tempoAtendimento, ConfiguraçãoPerfilProfissionalSaude configuraçãoPerfilProfissionalSaude) throws ModelException{
-        super();
-        this.setDiaSemana(diaSemana);
-        this.setHoraInicio(horaInicio);
-        this.setHoraFim(horaFim);
-        this.setTempoAtendimento(tempoAtendimento);
-        this.setConfiguracaoPerfilProfissionalSaude(configuraçãoPerfilProfissionalSaude);
+    public ItemDisponibilidade(DayOfWeek ds, LocalTime hi, LocalTime hf, Duration ta) throws ModelException {
+        setDiaSemana(ds);
+        setHoraInicio(hi);
+        setHoraFim(hf, hi);
+        setTempoAtendimento(ta);
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getDiaSemana() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public DayOfWeek getDiaSemana() {
         return diaSemana;
     }
 
-    public void setDiaSemana(String diaSemana) throws ModelException {
-        ItemDisponibilidade.validarDiaSemana(diaSemana);
-        this.diaSemana = diaSemana;
+    public void setDiaSemana(DayOfWeek ds) throws ModelException {
+        ItemDisponibilidade.validarDiaSemana(ds);
+        diaSemana = ds;
     }
 
-    public String getHoraInicio() {
+    public LocalTime getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(String horaInicio) throws ModelException{
-        ItemDisponibilidade.validarHoraInicio(horaInicio);
-        this.horaInicio = horaInicio;
+    public void setHoraInicio(LocalTime hi) throws ModelException {
+        ItemDisponibilidade.validarHoraInicio(hi);
+        horaInicio = hi;
     }
 
-    public String getHoraFim() {
+    public LocalTime getHoraFim() {
         return horaFim;
     }
 
-    public void setHoraFim(String horaFim) throws ModelException {
-        ItemDisponibilidade.validarHoraFim(horaFim);
-        this.horaFim = horaFim;
+    public void setHoraFim(LocalTime hf, LocalTime hi) throws ModelException {
+        this.validarHoraFim(hf, hi);
+        horaFim = hf;
     }
 
-    public String getTempoAtendimento() {
+    public Duration getTempoAtendimento() {
         return tempoAtendimento;
     }
 
-    public void setTempoAtendimento(String tempoAtendimento) throws ModelException {
-        ItemDisponibilidade.validarTempoAtendimento(tempoAtendimento);
-        this.tempoAtendimento = tempoAtendimento;
+    public void setTempoAtendimento(Duration ta) throws ModelException {
+        ItemDisponibilidade.validarTempoAtendimento(ta);
+        tempoAtendimento = ta;
     }
 
     public ConfiguraçãoPerfilProfissionalSaude getConfiguracaoPerfilProfissionalSaude() {
         return configuracaoPerfilProfissionalSaude;
     }
 
-    public void setConfiguracaoPerfilProfissionalSaude(ConfiguraçãoPerfilProfissionalSaude configuracaoPerfilProfissionalSaude) throws ModelException{
-        ItemDisponibilidade.validarConfiguraçãoPerfilProfissionalSaude(configuracaoPerfilProfissionalSaude);
-        this.configuracaoPerfilProfissionalSaude = configuracaoPerfilProfissionalSaude;
-        configuracaoPerfilProfissionalSaude.adicionarItemDisponibilidade(this);
+    public void setConfiguracaoPerfilProfissionalSaude(ConfiguraçãoPerfilProfissionalSaude cp) throws ModelException {
+        if(cp == null)
+            throw new ModelException("A configuração de perfil não pode ser nula!");
+        this.configuracaoPerfilProfissionalSaude = cp;
     }
 
-    private static void validarDiaSemana(String diaSemana) throws ModelException{
-        //A FAZER
+    @Override
+    public String toString() {
+        return "ItemDisponibilidade [diaSemana=" + diaSemana + ", horaInicio=" + horaInicio + ", horaFim=" + horaFim + ", tempoAtendimento=" + tempoAtendimento + "]";
     }
-    private static void validarHoraInicio(String horaInicio) throws ModelException{
-        //A FAZER
+
+    public static void validarDiaSemana(DayOfWeek ds) throws ModelException {
+        if(ds == null)
+            throw new ModelException("O dia da semana não pode ser nulo!");
     }
-    private static void validarHoraFim(String horaFim) throws ModelException{
-        //A FAZER
+
+    public static void validarHoraInicio(LocalTime hi) throws ModelException {
+        if(hi == null)
+            throw new ModelException("A hora de início não pode ser nula!");
     }
-    private static void validarTempoAtendimento(String tempoAtendimento) throws ModelException{
-        //A FAZER
+
+    public static void validarHoraFim(LocalTime hf, LocalTime hi) throws ModelException {
+        if(hf == null)
+            throw new ModelException("A hora de fim não pode ser nula!");
+
+        if(hi != null && hf.isBefore(hi))
+            throw new ModelException("A hora fim não pode ser antes da hora início!");
     }
-    public static void validarConfiguraçãoPerfilProfissionalSaude(ConfiguraçãoPerfilProfissionalSaude configuracaoPerfilProfissionalSaude) throws ModelException {
-        if (configuracaoPerfilProfissionalSaude == null)
-            throw new ModelException("A configuracao de Perfil do Profissional de Saude não pode ser nula!");
+
+    public static void validarTempoAtendimento(Duration ta) throws ModelException {
+        if(ta == null)
+            throw new ModelException("O tempo de atendimento não pode ser nulo!");
+
+        if(ta.isZero() || ta.isNegative())
+            throw new ModelException("O tempo de atendimento deve ser maior que zero!");
     }
+
+
+
 }
-
