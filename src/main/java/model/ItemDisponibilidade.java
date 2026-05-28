@@ -130,7 +130,4 @@ public class ItemDisponibilidade {
         if(ta.isZero() || ta.isNegative())
             throw new ModelException("O tempo de atendimento deve ser maior que zero!");
     }
-
-
-
 }

@@ -30,15 +30,15 @@ public class ConfiguraçãoPerfilProfissionalSaude extends ConfiguraçãoPerfil 
     @Column (nullable = false, length = TAMANHO_MAX_ESPECIALIDADE)
     private String especialidade;
 
-    @OneToMany (mappedBy = "ConfiguraçãoPerfilProfissionalSaude", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany (mappedBy = "configuracaoPerfil", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List <Consulta> listaConsultas = new ArrayList <> ();
 
-    @OneToMany (mappedBy = "ConfiguraçãoPerfilProfissionalSaude", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany (mappedBy = "configuracaoPerfil", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List <Reserva> listaReservas = new ArrayList <> ();
 
-    @OneToMany (mappedBy = "ConfiguraçãoPerfilProfissionalSaude", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany (mappedBy = "configuracaoPerfil", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List <ItemDisponibilidade> listaItensDisponibilidade = new ArrayList <> ();
 
@@ -146,7 +146,7 @@ public class ConfiguraçãoPerfilProfissionalSaude extends ConfiguraçãoPerfil 
     public static void validarNumRegistro (String nr) throws ModelException {
         if (nr == null || nr.isBlank ())
             throw new ModelException ("O número de registro não pode ser nulo ou vazio!");
-        
+
         if (nr.length () < TAMANHO_MIN_NUM_REGISTRO || nr.length () > TAMANHO_MAX_NUM_REGISTRO)
             throw new ModelException ("O número de registro deve possuir entre " + TAMANHO_MIN_NUM_REGISTRO + " e "+ TAMANHO_MAX_NUM_REGISTRO + " caracteres!");
 
